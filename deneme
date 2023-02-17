@@ -1,0 +1,73 @@
+local player = game.Players.LocalPlayer
+local playergui = player:WaitForChild('PlayerGui')
+
+local deutsch = Instance.new('ScreenGui',playergui)
+deutsch.Name = "D E U T S C H"
+
+local activate = Instance.new('TextButton' , deutsch)
+activate.Name = "Activate"
+activate.BackgroundColor3 = Color3.new(0.0823529, 0.462745, 0.0627451)
+activate.Size = UDim2.new(0.12 , 0 , 0.061 , 0)
+activate.Text = "ACTIVATE"
+activate.TextSize = 20
+activate.Font = 24
+activate.TextColor3 = Color3.new(1,1,1)
+activate.AnchorPoint = Vector2.new(0.5 , 0.5)
+activate.Position = UDim2.new(0.5 , 0 , 0.5 , 0)
+local backg = Instance.new('Frame',deutsch)
+backg.Name = "bg"
+backg.Visible = false
+backg.BackgroundColor3 = Color3.new(0.164706, 0.164706, 0.164706)
+backg.Position = UDim2.new(0.5 , 0 , 0.5 , 0)
+backg.AnchorPoint = Vector2.new(0.5 , 0.5)
+backg.Size = UDim2.new(0.439 , 0 , 0.396 , 0)
+
+local uic = Instance.new('UICorner',activate)
+local uic = Instance.new('UICorner',backg)
+local uis = Instance.new('UIStroke',activate)
+uis.Thickness = 1.5
+
+activate.MouseButton1Click:Connect(function()
+	backg.Visible = true
+	activate.Visible = false
+end)
+
+local UserInputService = game:GetService("UserInputService")
+
+local gui = backg
+
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+local function update(input)
+	local delta = input.Position - dragStart
+	gui.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+end
+
+gui.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+		dragging = true
+		dragStart = input.Position
+		startPos = gui.Position
+
+		input.Changed:Connect(function()
+			if input.UserInputState == Enum.UserInputState.End then
+				dragging = false
+			end
+		end)
+	end
+end)
+
+gui.InputChanged:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+		dragInput = input
+	end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+	if input == dragInput and dragging then
+		update(input)
+	end
+end)
