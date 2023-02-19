@@ -1,45 +1,124 @@
 local player = game.Players.LocalPlayer
-local playergui = player:WaitForChild('PlayerGui')
-
-local deutsch = Instance.new('ScreenGui',playergui)
-deutsch.Name = "D E U T S C H"
-
-local activate = Instance.new('TextButton' , deutsch)
-activate.Name = "Activate"
-activate.BackgroundColor3 = Color3.new(0.0823529, 0.462745, 0.0627451)
-activate.Size = UDim2.new(0.12 , 0 , 0.061 , 0)
-activate.Text = "ACTIVATE"
-activate.TextSize = 20
-activate.Font = 24
-activate.TextColor3 = Color3.new(1,1,1)
-activate.AnchorPoint = Vector2.new(0.5 , 0.5)
-activate.Position = UDim2.new(0.5 , 0 , 0.5 , 0)
-local backg = Instance.new('Frame',deutsch)
-backg.Name = "bg"
-backg.Visible = false
-backg.BackgroundColor3 = Color3.new(0.164706, 0.164706, 0.164706)
-backg.Position = UDim2.new(0.5 , 0 , 0.5 , 0)
-backg.AnchorPoint = Vector2.new(0.5 , 0.5)
-backg.Size = UDim2.new(0.439 , 0 , 0.396 , 0)
-
-local uic = Instance.new('UICorner',activate)
-local uic = Instance.new('UICorner',backg)
-local uis = Instance.new('UIStroke',activate)
-uis.Thickness = 1.5
-
-activate.MouseButton1Click:Connect(function()
-	backg.Visible = true
-	activate.Visible = false
-end)
-
 local UserInputService = game:GetService("UserInputService")
-
-local gui = backg
-
 local dragging
 local dragInput
 local dragStart
 local startPos
+local playergui = player:WaitForChild('PlayerGui')
+local screengui = Instance.new('ScreenGui', playergui)
+screengui.Name = "Deutsch"
+local background = Instance.new('Frame' , screengui)
+local uistrokebackg = Instance.new('UIStroke' , background)
+uistrokebackg.Color = Color3.new(1,1,1)
+local uicornerbg = Instance.new('UICorner' , background)
+local sidebar = Instance.new('Frame' , background)
+local uicorners = Instance.new('UICorner' , sidebar)
+local hosgeldin = Instance.new('TextLabel' , background)
+local menu = Instance.new('TextButton' , background)
+local uistrokemenu = Instance.new('UIStroke' , menu)
+local uicornermenu = Instance.new('UICorner' , menu)
+local sidebara = 0
+local acmakapa = 0
+local egg = Instance.new('TextButton' , background)
+local uicorneregg = Instance.new('UICorner' , egg)
+local fuse = Instance.new('TextButton' , background)
+local uicornerfuse = Instance.new('UICorner' , fuse)
+
+
+wait(2)
+background:TweenSizeAndPosition(UDim2.new(0.258,0,0.343,0),UDim2.new(0.5,0,0.5,0),"Out","Quint",1)
+
+
+--özellikler
+
+fuse.Name = "fusebutton"
+fuse.Size = UDim2.new(0.132,0,0.109,0)
+fuse.Position = UDim2.new(0.019, 0,0.299, 0)
+fuse.Font = 24
+fuse.TextSize = 18
+fuse.TextColor3 = Color3.new(1,1,1)
+fuse.BackgroundColor3 = Color3.new(0.223529, 0.223529, 0.223529)
+fuse.Text = "Combine"
+fuse.Visible = false
+
+egg.Name = "eggbutton"
+egg.Size = UDim2.new(0.132,0,0.109,0)
+egg.Position = UDim2.new(0.019,0,0.159,0)
+egg.Font = 24
+egg.TextSize = 18
+egg.TextColor3 = Color3.new(1, 1, 1)
+egg.BackgroundColor3 = Color3.new(0.223529, 0.223529, 0.223529)
+egg.Text = "Egg"
+egg.Visible = false
+
+menu.Name = "menubutton"
+menu.BackgroundTransparency = 1
+menu.Position = UDim2.new(0.023,0,0.029,0)
+menu.Size = UDim2.new(0.040,0,0.105,0)
+menu.Text = "≡"
+menu.TextColor3 = Color3.new(1,1,1)
+menu.TextScaled = true
+menu.AutoButtonColor = false
+menu.BackgroundColor3 = Color3.new(1,1,1)
+menu.FontFace = Font.fromName("AccanthisADFStd")
+
+background.Name = "background"
+background.BackgroundTransparency = 0.01
+background.AnchorPoint = Vector2.new(0.5,0.5)
+background.BackgroundColor3 = Color3.new(0.223529, 0.223529, 0.223529)
+background.Position = UDim2.new(0.5,0,0.5,0)
+background.Size = UDim2.new(0.258,0,0.033,0)
+
+sidebar.Name = "sidebar"
+sidebar.BackgroundTransparency = 0.01
+sidebar.BackgroundColor3 = Color3.new(0.129412, 0.129412, 0.129412)
+sidebar.Position = UDim2.new(-0,0,0,0)
+sidebar.Size = UDim2.new(0.088,0,1,0)
+
+hosgeldin.Name = "hosgeldin"
+hosgeldin.BackgroundTransparency = 1
+hosgeldin.Position = UDim2.new(0.137,0,0.029,0)
+hosgeldin.Size = UDim2.new(0.721,0,0.152,0)
+hosgeldin.Font = 36
+hosgeldin.FontFace.Bold = true
+hosgeldin.TextColor3 = Color3.new(1, 1, 1)
+hosgeldin.TextScaled = true
+hosgeldin.Text = "Hosgeldin, "..player.DisplayName
+
+menu.MouseButton1Down:Connect(function()
+	if sidebara == 0 then
+		if menu.Active == true then
+			sidebara = 1
+			menu.Active = false
+			menu:TweenPosition(UDim2.new(0.066, 0,0.029, 0),"Out","Back",0.5)
+			sidebar:TweenSize(UDim2.new(0.174, 0,1, 0),"Out","Quint",0.5)
+			menu.TextColor3 = Color3.new(0,0,0)
+			uistrokemenu.Color = Color3.new(1,1,1)
+			wait(0.05)
+			egg.Visible = true
+			fuse.Visible = true
+			wait(0.5)
+			menu.Active = true
+		end
+	else
+		if menu.Active == true then
+			sidebara = 0
+			menu.Active = false
+			egg.Visible = false
+			fuse.Visible = false
+			menu:TweenPosition(UDim2.new(0.023,0,0.029,0),"Out","Back",0.5)
+			sidebar:TweenSize(UDim2.new(0.088, 0,1, 0),"Out","Quint",0.5)
+			menu.TextColor3 = Color3.new(1,1,1)
+			uistrokemenu.Color = Color3.new(0,0,0)
+			wait(0.5)
+			menu.Active = true
+		end
+	end
+end)
+
+--taşıma scripti
+
+local gui = background
 
 local function update(input)
 	local delta = input.Position - dragStart
@@ -69,5 +148,20 @@ end)
 UserInputService.InputChanged:Connect(function(input)
 	if input == dragInput and dragging then
 		update(input)
+	end
+end)
+
+--açma/kapama scripti
+
+UserInputService.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.RightShift then
+		if acmakapa == 0 then
+			print("a")
+			acmakapa = 1
+			screengui.Enabled = false
+		else
+			acmakapa = 0
+			screengui.Enabled = true
+		end
 	end
 end)
